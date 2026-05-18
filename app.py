@@ -41,7 +41,7 @@ os.makedirs("static", exist_ok=True)
 # ==================== DATABASE SETUP ====================
 def init_database():
     """Initialize SQLite database with all required tables"""
-    conn = sqlite3.connect('freefire_tournament.db')
+    conn = sqlite3.connect('freefire_tournament.db', timeout=20, check_same_thread=False)
     c = conn.cursor()
     
     # Players table
@@ -85,7 +85,7 @@ def init_database():
 def register_player(uid, ingame_name):
     """Register a new player"""
     try:
-        conn = sqlite3.connect('freefire_tournament.db')
+        conn = sqlite3.connect('freefire_tournament.db', timeout=20, check_same_thread=False)
         c = conn.cursor()
         c.execute("INSERT INTO players (uid, ingame_name) VALUES (?, ?)", (uid, ingame_name))
         conn.commit()
@@ -104,7 +104,7 @@ def register_player(uid, ingame_name):
 
 def update_payment_screenshot(uid, screenshot_path):
     """Update payment screenshot for a player"""
-    conn = sqlite3.connect('freefire_tournament.db')
+    conn = sqlite3.connect('freefire_tournament.db', timeout=20, check_same_thread=False)
     c = conn.cursor()
     c.execute("UPDATE players SET payment_screenshot = ? WHERE uid = ?", (screenshot_path, uid))
     conn.commit()
@@ -112,7 +112,7 @@ def update_payment_screenshot(uid, screenshot_path):
 
 def get_player_by_uid(uid):
     """Get player details by UID"""
-    conn = sqlite3.connect('freefire_tournament.db')
+    conn = sqlite3.connect('freefire_tournament.db', timeout=20, check_same_thread=False)
     c = conn.cursor()
     c.execute("SELECT uid, ingame_name, status, room_id, room_password FROM players WHERE uid = ?", (uid,))
     player = c.fetchone()
@@ -129,7 +129,7 @@ def get_player_by_uid(uid):
 
 def update_player_status(uid, status, room_id=None, room_password=None):
     """Update player approval status and room credentials"""
-    conn = sqlite3.connect('freefire_tournament.db')
+    conn = sqlite3.connect('freefire_tournament.db', timeout=20, check_same_thread=False)
     c = conn.cursor()
     if status == 'approved':
         c.execute("UPDATE players SET status = ?, approved_at = ?, room_id = ?, room_password = ? WHERE uid = ?",
@@ -141,7 +141,7 @@ def update_player_status(uid, status, room_id=None, room_password=None):
 
 def get_all_pending_players():
     """Get all pending approval players"""
-    conn = sqlite3.connect('freefire_tournament.db')
+    conn = sqlite3.connect('freefire_tournament.db', timeout=20, check_same_thread=False)
     c = conn.cursor()
     c.execute("SELECT uid, ingame_name, payment_screenshot, registered_at FROM players WHERE status = 'pending' ORDER BY registered_at DESC")
     players = c.fetchall()
@@ -150,7 +150,7 @@ def get_all_pending_players():
 
 def get_tournament_settings():
     """Get tournament settings"""
-    conn = sqlite3.connect('freefire_tournament.db')
+    conn = sqlite3.connect('freefire_tournament.db', timeout=20, check_same_thread=False)
     c = conn.cursor()
     c.execute("SELECT key, value FROM tournament_settings")
     settings = dict(c.fetchall())
@@ -159,7 +159,7 @@ def get_tournament_settings():
 
 def update_tournament_room(room_id, room_password):
     """Update tournament room credentials"""
-    conn = sqlite3.connect('freefire_tournament.db')
+    conn = sqlite3.connect('freefire_tournament.db', timeout=20, check_same_thread=False)
     c = conn.cursor()
     c.execute("UPDATE tournament_settings SET value = ? WHERE key = 'room_id'", (room_id,))
     c.execute("UPDATE tournament_settings SET value = ? WHERE key = 'room_password'", (room_password,))
@@ -329,7 +329,7 @@ def show_stats(message):
         bot.reply_to(message, "❌ Unauthorized!")
         return
     
-    conn = sqlite3.connect('freefire_tournament.db')
+    conn = sqlite3.connect('freefire_tournament.db', timeout=20, check_same_thread=False)
     c = conn.cursor()
     c.execute("SELECT COUNT(*) FROM players")
     total = c.fetchone()[0]
