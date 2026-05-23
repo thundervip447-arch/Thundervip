@@ -20,8 +20,8 @@ import requests
 from werkzeug.utils import secure_filename
 
 # ==================== CONFIGURATION ====================
-TELEGRAM_BOT_TOKEN = "8264668307:AAFcWh7amcTMmszJGh5uHX_sQOQ5Nb_YpoY"  # Replace with your bot token
-ADMIN_CHAT_ID = "7191892460"  # Replace with your Telegram Chat ID
+TELEGRAM_BOT_TOKEN = "8348278242:AAGrNQ8oS5Idvw0WLkYZ_ys6lay6WXvqe14"  # Replace with your bot token
+ADMIN_CHAT_ID = "8459210520"  # Replace with your Telegram Chat ID
 WEB_HOST = "0.0.0.0"
 WEB_PORT = 50001
 UPLOAD_FOLDER = "uploads"
@@ -73,11 +73,11 @@ def init_database():
     c.execute("INSERT OR IGNORE INTO tournament_settings (key, value) VALUES (?, ?)", 
               ('prize_pool', '₹5,000'))
     c.execute("INSERT OR IGNORE INTO tournament_settings (key, value) VALUES (?, ?)", 
-              ('winner_prize', '₹3,000'))
+              ('1_winner_prize', '₹1,000'))
     c.execute("INSERT OR IGNORE INTO tournament_settings (key, value) VALUES (?, ?)", 
-              ('runner_prize', '₹1,500'))
+              ('2_runner_prize', '₹3,00'))
     c.execute("INSERT OR IGNORE INTO tournament_settings (key, value) VALUES (?, ?)", 
-              ('second_runner_prize', '₹500'))
+              ('3_runner_prize', '₹200'))
     
     conn.commit()
     conn.close()
@@ -200,9 +200,9 @@ Use inline buttons from payment screenshots for easy approval!
 🎮 *FREE FIRE CUSTOM ROOM TOURNAMENT* 🎮
 
 💰 *Prize Pool:* ₹5,000
-🥇 Winner: ₹3,000
-🥈 Runner Up: ₹1,500
-🥉 2nd Runner Up: ₹500
+🥇1 Winner: ₹1000
+🥈 2ndRunner Up: ₹300
+🥉 3nd Runner Up: ₹200
 
 💵 *Entry Fee:* ₹50
 
@@ -887,16 +887,16 @@ HTML_TEMPLATE = """
 
         <div class="prize-section">
             <div class="prize-card">
-                <div class="prize-amount">₹3,000</div>
+                <div class="prize-amount">₹1,000</div>
                 <div class="prize-label">🥇 WINNER</div>
             </div>
             <div class="prize-card">
-                <div class="prize-amount">₹1,500</div>
-                <div class="prize-label">🥈 RUNNER UP</div>
+                <div class="prize-amount">₹3,00</div>
+                <div class="prize-label">🥈 2RUNNER UP</div>
             </div>
             <div class="prize-card">
-                <div class="prize-amount">₹500</div>
-                <div class="prize-label">🥉 2ND RUNNER UP</div>
+                <div class="prize-amount">₹200</div>
+                <div class="prize-label">🥉 3ND RUNNER UP</div>
             </div>
         </div>
 
